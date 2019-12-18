@@ -10,7 +10,7 @@ void main() {
     test('only n number of contexts are stored', () {
       final InViewState state = InViewState(
         intialIds: [],
-        isInViewCondition: (doublex, double y, double z) => true,
+        isInViewCondition: (double x, double y, double z) => true,
       );
 
       state.addContext(context: null, id: '0');
