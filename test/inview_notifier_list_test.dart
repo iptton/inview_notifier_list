@@ -9,7 +9,7 @@ void main() {
   group('test the inViewState', () {
     test('only n number of contexts are stored', () {
       final InViewState state = InViewState(
-        intialIds: [],
+        initialIds: [],
         isInViewCondition: (double x, double y, double z) => true,
       );
 
