@@ -11,7 +11,7 @@ class InViewNotifierList extends StatefulWidget {
   ///when the list view is built for the first time.
   final List<String> initialInViewIds;
 
-  ///The widgets that should be displayed in the listview.
+  ///The widgets that should be displayed in the [ListView].
   final List<Widget> children;
 
   ///The number of widget's contexts the InViewNotifierList should stored/cached for
@@ -69,9 +69,8 @@ class InViewNotifierList extends StatefulWidget {
   _InViewNotifierListState createState() => _InViewNotifierListState();
 
   static InViewState of(BuildContext context) {
-    final _InheritedInViewWidget widget = context
-        .ancestorInheritedElementForWidgetOfExactType(_InheritedInViewWidget)
-        .widget;
+    final _InheritedInViewWidget widget =
+        context.getElementForInheritedWidgetOfExactType().widget;
     return widget.inViewState;
   }
 }
