@@ -11,11 +11,11 @@ class InViewNotifierList extends StatefulWidget {
   ///when the list view is built for the first time.
   final List<String> initialInViewIds;
 
-  ///The widgets that should be displayed in the listview.
+  ///The widgets that should be displayed in the [ListView].
   final List<Widget> children;
 
   ///The number of widget's contexts the InViewNotifierList should stored/cached for
-  ///the calculations thats needed to be done to check if the widgets are inView or not.
+  ///the calculations those needed to be done to check if the widgets are inView or not.
   ///Defaults to 10 and should be greater than 1. This is done to reduce the number of calculations being performed.
   final int contextCacheCount;
 
@@ -69,9 +69,8 @@ class InViewNotifierList extends StatefulWidget {
   _InViewNotifierListState createState() => _InViewNotifierListState();
 
   static InViewState of(BuildContext context) {
-    final _InheritedInViewWidget widget = context
-        .ancestorInheritedElementForWidgetOfExactType(_InheritedInViewWidget)
-        .widget;
+    final _InheritedInViewWidget widget =
+        context.getElementForInheritedWidgetOfExactType().widget;
     return widget.inViewState;
   }
 }
@@ -118,7 +117,7 @@ class _InViewNotifierListState extends State<InViewNotifierList> {
 
   void _initializeInViewState() {
     _inViewState = InViewState(
-      intialIds: widget.initialInViewIds,
+      initialIds: widget.initialInViewIds,
       isInViewCondition: widget.isInViewPortCondition,
     );
   }
@@ -158,7 +157,7 @@ class _InViewNotifierListState extends State<InViewNotifierList> {
           }
           final double maxScroll = notification.metrics.maxScrollExtent;
 
-          //end of the listview reached
+          //end of the ListView reached
           if (isScrollDirection &&
               maxScroll - notification.metrics.pixels <=
                   widget.endNotificationOffset) {
@@ -170,7 +169,7 @@ class _InViewNotifierListState extends State<InViewNotifierList> {
           //when user is not scrolling
           if (notification is UserScrollNotification &&
               notification.direction == ScrollDirection.idle) {
-            //Keeps only the last number contexts provided by user. This prevents overcalculation
+            //Keeps only the last number contexts provided by user. This prevents overCalculation
             //by iterating over non visible widget contexts in scroll listener
             _inViewState.removeContexts(widget.contextCacheCount);
 
@@ -216,19 +215,19 @@ class _WidgetData {
 ///Class that stores the context's of the widgets and String id's of the widgets that are
 ///currently in-view. It notifies the listeners when the list is scrolled.
 class InViewState extends ChangeNotifier {
-  ///The context's of the widgets in the listview that the user expects a
+  ///The context's of the widgets in the ListView that the user expects a
   ///notification whether it is in-view or not.
   Set<_WidgetData> _contexts;
 
-  ///The String id's of the widgets in the listview that the user expects a
+  ///The String id's of the widgets in the ListView that the user expects a
   ///notification whether it is in-view or not. This helps to make recognition easy.
   List<String> _currentInViewIds = [];
   final IsInViewPortCondition _isInViewCondition;
 
-  InViewState({List<String> intialIds, Function isInViewCondition})
+  InViewState({List<String> initialIds, Function isInViewCondition})
       : _isInViewCondition = isInViewCondition {
     _contexts = Set<_WidgetData>();
-    _currentInViewIds.addAll(intialIds);
+    _currentInViewIds.addAll(initialIds);
   }
 
   ///Number of widgets that are currently in-view.
@@ -243,7 +242,7 @@ class InViewState extends ChangeNotifier {
   }
 
   ///Keeps the number of widget's contexts the InViewNotifierList should stored/cached for
-  ///the calculations thats needed to be done to check if the widgets are inView or not.
+  ///the calculations those needed to be done to check if the widgets are inView or not.
   ///Defaults to 10 and should be greater than 1. This is done to reduce the number of calculations being performed.
   void removeContexts(int letRemain) {
     if (_contexts.length > letRemain) {

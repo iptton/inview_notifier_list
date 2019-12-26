@@ -9,8 +9,8 @@ void main() {
   group('test the inViewState', () {
     test('only n number of contexts are stored', () {
       final InViewState state = InViewState(
-        intialIds: [],
-        isInViewCondition: (doublex, double y, double z) => true,
+        initialIds: [],
+        isInViewCondition: (double x, double y, double z) => true,
       );
 
       state.addContext(context: null, id: '0');
@@ -60,11 +60,11 @@ void main() {
       await _buildInViewNotifier(tester,
           condition: condition, controller: controller);
 
-      expect(ContianerByColorFinder(Colors.lightGreen), findsNothing);
+      expect(ContainerByColorFinder(Colors.lightGreen), findsNothing);
       controller.jumpTo(600.0);
       await tester.pump(Duration(milliseconds: 2000));
 
-      expect(ContianerByColorFinder(Colors.lightGreen), findsOneWidget);
+      expect(ContainerByColorFinder(Colors.lightGreen), findsOneWidget);
     });
 
     testWidgets(
@@ -82,19 +82,19 @@ void main() {
       await _buildInViewNotifier(tester,
           condition: condition, controller: controller);
 
-      expect(ContianerByColorFinder(Colors.lightGreen), findsNothing);
+      expect(ContainerByColorFinder(Colors.lightGreen), findsNothing);
       controller.jumpTo(380.0);
       await tester.pump(Duration(milliseconds: 2000));
 
-      expect(ContianerByColorFinder(Colors.lightGreen), findsNWidgets(2));
+      expect(ContainerByColorFinder(Colors.lightGreen), findsNWidgets(2));
     });
   });
 }
 
-class ContianerByColorFinder extends MatchFinder {
+class ContainerByColorFinder extends MatchFinder {
   final Color color;
 
-  ContianerByColorFinder(this.color, {bool skipOffstage = true})
+  ContainerByColorFinder(this.color, {bool skipOffstage = true})
       : super(skipOffstage: skipOffstage);
 
   @override
@@ -103,9 +103,9 @@ class ContianerByColorFinder extends MatchFinder {
   @override
   bool matches(Element candidate) {
     if (candidate.widget is Container) {
-      final Container contianerWidget = candidate.widget;
-      if (contianerWidget.decoration is BoxDecoration) {
-        final BoxDecoration decoration = contianerWidget.decoration;
+      final Container containerWidget = candidate.widget;
+      if (containerWidget.decoration is BoxDecoration) {
+        final BoxDecoration decoration = containerWidget.decoration;
         return decoration.color == color;
       }
       return false;
